@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd 
+         http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+	<cache:annotation-driven />
+	<context:component-scan base-package="it.soprasteria.pianificazione.v2" />
+	<bean id="V2Service" class="it.soprasteria.pianificazione.v2.service.V2Service" />
+	<bean id="Employee"
+		class="it.soprasteria.pianificazione.v2.service.EmployeeService" />
+	<bean id="Project" class="it.soprasteria.pianificazione.v2.service.ProjectService" />
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehcache" />
+	</bean>
+	<bean id="ehcache"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<property name="shared" value="true" />
+	</bean>
+
+	<bean id="DaoImpl" class="it.soprasteria.pianificazione.v2.dao.DaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:31006/pianificazione" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+
+	<!-- JMX for ehcache -->
+	<bean id="managementService" class="net.sf.ehcache.management.ManagementService"
+		init-method="init" destroy-method="dispose">
+		<constructor-arg ref="ehcache" />
+		<constructor-arg ref="mbeanServer" />
+		<constructor-arg index="2" value="true" />
+		<constructor-arg index="3" value="true" />
+		<constructor-arg index="4" value="true" />
+		<constructor-arg index="5" value="true" />
+	</bean>
+	<bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+		<property name="locateExistingServerIfPossible" value="true" />
+
+	</bean>
+	
+	<bean id="formValidator" class="it.soprasteria.pianificazione.v2.validator.FormValidator">
+	</bean>
+	
+</beans>
