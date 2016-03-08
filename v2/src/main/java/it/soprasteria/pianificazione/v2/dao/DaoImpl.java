@@ -214,6 +214,9 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 				ps.setInt(i++, rec.getProd1());
 				ps.setInt(i++, rec.getCons2());
 				ps.setInt(i++, rec.getProd2());
+				
+				// TODO
+				// sistemare, cablato nome utente
 				ps.setString(i++, "Admin");
 				ps.setInt(i++, rec.getPrice());
 				return ps;
@@ -241,6 +244,10 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	public List<RecordV2Bean> findAllV2(){
 		List<RecordV2Bean> result = new ArrayList<RecordV2Bean>();
 		StringBuilder sb = new StringBuilder();
+		
+		// TODO
+		// recuperare l'elenco dei v2 in modo diverso
+
 		sb.append("SELECT *");
 		sb.append(" FROM u_progetti_risorse");
 		sb.append(" GROUP BY mese");

@@ -39,4 +39,11 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/webapp/resources/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/software/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

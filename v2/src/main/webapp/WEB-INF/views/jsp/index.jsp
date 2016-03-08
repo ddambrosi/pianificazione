@@ -6,27 +6,17 @@
 
 <!DOCTYPE html>
 <html lang="it">
-<head>
-<!-- CSS file -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/EasyAutocomplete-1.3.3/easy-autocomplete.min.css">
-<script
-	src="${pageContext.request.contextPath}/webjars/jquery/1.11.1/jquery.js">
-</script>
-<script
-	src="${pageContext.request.contextPath}/resources/EasyAutocomplete-1.3.3/jquery.easy-autocomplete.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/table.js"></script>
+	<head>	
+		<jsp:include page="../fragments/head.jsp" />
+	
 <script>
 	$(document).ready(function() {
 		
-				
 		function getUrlVars() {
-			
 		    var vars = {};
 		    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
 		        vars[key] = value;
 		    });
-		    
 		    return vars;
 		}
 		
@@ -75,9 +65,9 @@
 					           $("#projectDesc").getSelectedItemData().idProject,
 					            first];
 					console.log(value[4]);
-					$("#customer").val(value[0]).trigger("change");
-					$("#currency").val(value[1]).trigger("change");
-					$("#activityType").val(value[2]).trigger("change");
+					$("#customer").text(value[0]).trigger("change");
+					$("#currency").text(value[1]).trigger("change");
+					$("#activityType").text(value[2]).trigger("change");
 					$("#idProject").val(value[3]).trigger("change");
 					$("#month").val(value[4]).trigger("change");
 				},
@@ -104,23 +94,23 @@
 	}
 
 </script>
-<title>Spring MVC</title>
-</head>
+	</head>
+	<jsp:include page="../fragments/nav.jsp" />
 <body>
 <button id="download" onclick="tableToExcel('v2','v2')">Export</button>
-	<table id="v2"  border="1" style="border-spacing: 0">
+	<table id="v2">
 		<tr>
 			<th>Risorsa</th>
 			<th>Attività</th>
 			<th>Progetto</th>
 			<th>Tariffa</th>
 			<th>Valuta</th>
-			<th>Consolidato mese 1</th>
-			<th>Prodotto mese 1</th>
-			<th>Consolidato mese 2</th>
-			<th>Prodotto mese 2</th>
-			<th>Consolidato mese 3</th>
-			<th>Prodotto mese 3</th>
+			<th>Consolidato 1</th>
+			<th>Prodotto 1</th>
+			<th>Consolidato 2</th>
+			<th>Prodotto 2</th>
+			<th>Consolidato 3</th>
+			<th>Prodotto 3</th>
 		</tr>
 
 		<c:forEach items="${list}" var="item">
@@ -141,26 +131,114 @@
 		</c:forEach>
 	</table>
 	
-	<form:form method="POST" modelAttribute="v2Form" action="${pageContext.request.contextPath}/send/data">
+	<form:form method="POST" class="form-horizontal" modelAttribute="v2Form" action="${pageContext.request.contextPath}/send/data">
 	    <form:hidden path="month"/>
 	    <form:hidden path="idRecord"/>
 	    <form:hidden path="idProject"/>
 		<form:hidden path="badgeNumber"/>
-		Risorsa :<input id="employeeDesc" type="text" /><br>
 		<form:hidden path="idProject"/>
-		Progetto : <input type="text" id= "projectDesc" size="30" /><br>
-		Cliente: <form:input path="customer" type="text"  size="30" readonly="true" cssStyle="background-color:lightgrey"/><br>
-		Attività : <form:input path="activityType" type="text"  size="30" readonly="true" cssStyle="background-color:lightgrey"/><br>
-		Valuta : <form:input path="currency" type="text"  size="30" readonly="true" cssStyle="background-color:lightgrey"/><br>
-		Tariffa : <form:input path="price" type="text" size="30" onfocus="this.value=''"/><br>
-		Consolidato mese 1: <form:input path="cons0" type="text" size="30" onfocus="this.value=''"/><br>
-		<form:errors path="cons0" />
-		Prodotto mese 1: <form:input path="prod0" type="text" size="30" onfocus="this.value=''"/><br>
-		Consolidato mese 2: <form:input path="cons1" type="text" size="30" onfocus="this.value=''"/><br>
-		Prodotto mese 2: <form:input path="prod1" type="text" size="30" onfocus="this.value=''"/><br>
-		Consolidato mese 3: <form:input path="cons2" type="text" size="30" onfocus="this.value=''" /><br>
-		Prodotto mese 3: <form:input path="prod2" type="text" size="30" onfocus="this.value=''" /><br>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Risorsa</label>
+			<div class="col-sm-10">
+				<input id="employeeDesc" type="text" class="form-control" placeholder="Risorsa">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Progetto</label>
+			<div class="col-sm-10">
+				<input id="projectDesc" type="text" class="form-control" placeholder="Progetto">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Cliente</label>
+			<div class="col-sm-10">
+				<span id="customer"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Attività</label>
+			<div class="col-sm-10">
+				<span id="activityType"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Valuta</label>
+			<div class="col-sm-10">
+				<span id="currency"></span>
+			</div>
+		</div>
+
+		<spring:bind path="price">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Tariffa</label>
+				<div class="col-sm-10">
+					<form:input path="price" type="text" class="form-control" placeholder="Tariffa" />
+					<form:errors path="price" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		<spring:bind path="cons0">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Consolidato 1</label>
+				<div class="col-sm-10">
+					<form:input path="cons0" type="text" class="form-control" placeholder="Consolidato 1" />
+					<form:errors path="cons0" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		<spring:bind path="prod0">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Prodotto 1</label>
+				<div class="col-sm-10">
+					<form:input path="prod0" type="text" class="form-control" placeholder="Prodotto 1" />
+					<form:errors path="prod0" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+
+		<spring:bind path="cons1">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Consolidato 2</label>
+				<div class="col-sm-10">
+					<form:input path="cons1" type="text" class="form-control" placeholder="Consolidato 2" />
+					<form:errors path="cons1" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		<spring:bind path="prod1">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Prodotto 2</label>
+				<div class="col-sm-10">
+					<form:input path="prod1" type="text" class="form-control" placeholder="Prodotto 2" />
+					<form:errors path="prod1" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+
+		<spring:bind path="cons2">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Consolidato 3</label>
+				<div class="col-sm-10">
+					<form:input path="cons2" type="text" class="form-control" placeholder="Consolidato 3" />
+					<form:errors path="cons2" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		<spring:bind path="prod2">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Prodotto 3</label>
+				<div class="col-sm-10">
+					<form:input path="prod2" type="text" class="form-control" placeholder="Prodotto 3" />
+					<form:errors path="prod2" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+
        <input type="submit" value="Aggiorna V2" /><input type ="submit" id ="delete" value ="cancella record"/><input type="submit" id="bottone" value = "Inserisci record"/>
 	</form:form>
+	
+	<jsp:include page="../fragments/footer.jsp" />	
 </body>
 </html>
