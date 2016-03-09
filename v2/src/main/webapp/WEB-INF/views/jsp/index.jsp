@@ -138,18 +138,26 @@
 		<form:hidden path="badgeNumber"/>
 		<form:hidden path="idProject"/>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Risorsa</label>
-			<div class="col-sm-10">
-				<input id="employeeDesc" type="text" class="form-control" placeholder="Risorsa">
+		<spring:bind path="employeeDesc">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Risorsa</label>
+				<div class="col-sm-10">
+					<form:input path="employeeDesc" type="text" class="form-control" placeholder="Risorsa" />
+					<form:errors path="employeeDesc" class="control-label" />
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Progetto</label>
-			<div class="col-sm-10">
-				<input id="projectDesc" type="text" class="form-control" placeholder="Progetto">
+		</spring:bind>
+		
+		<spring:bind path="projectDesc">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Progetto</label>
+				<div class="col-sm-10">
+					<form:input path="projectDesc" type="text" class="form-control" placeholder="Progetto" />
+					<form:errors path="projectDesc" class="control-label" />
+				</div>
 			</div>
-		</div>
+		</spring:bind>
+
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Cliente</label>
 			<div class="col-sm-10">
@@ -168,7 +176,7 @@
 				<span id="currency"></span>
 			</div>
 		</div>
-
+	
 		<spring:bind path="price">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Tariffa</label>
