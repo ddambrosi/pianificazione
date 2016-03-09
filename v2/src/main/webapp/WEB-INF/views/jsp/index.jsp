@@ -95,7 +95,6 @@
 					$('#projectDesc').val(data.projectDesc).change();
 				});
 	}
-
 </script>
 	</head>
 	<jsp:include page="../fragments/nav.jsp" />

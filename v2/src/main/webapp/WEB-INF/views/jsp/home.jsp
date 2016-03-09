@@ -6,21 +6,12 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<!-- CSS file -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/EasyAutocomplete-1.3.3/easy-autocomplete.min.css">
-<script
-	src="${pageContext.request.contextPath}/webjars/jquery/1.11.1/jquery.js">
-</script>
-<script
-	src="${pageContext.request.contextPath}/resources/EasyAutocomplete-1.3.3/jquery.easy-autocomplete.js"></script>
-<script>
-
-
-</script>
-<title>Spring MVC</title>
+	<title>Spring MVC</title>
+	<jsp:include page="../fragments/head.jsp" />
 </head>
+<jsp:include page="../fragments/nav.jsp" />
 <body>
+
 	<table>
 	<tr>
 	 <th>Mese</th>
