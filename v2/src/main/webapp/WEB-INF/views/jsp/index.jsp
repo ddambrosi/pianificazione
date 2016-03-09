@@ -49,7 +49,10 @@
 		$("#employeeDesc").easyAutocomplete(options);
 		var options2 = {
 			url : function(phrase) {
-				return "${pageContext.request.contextPath}/autocomplete/progetto";
+				var sel = document.getElementById("bu");
+				var selected = sel.options[sel.selectedIndex].value;
+				console.log(selected);
+				return "${pageContext.request.contextPath}/autocomplete/progetto?bu="+selected;
 			},
 			getValue : function(result) {
 				return result.description;
@@ -147,6 +150,13 @@
 				</div>
 			</div>
 		</spring:bind>
+		
+		<div class="form-group">
+		Business Unit:<select id="bu">
+		<option value ="791">791</option>
+		<option value = "792">792</option>
+		</select>
+		</div>
 		<spring:bind path="projectDesc">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Progetto</label>
