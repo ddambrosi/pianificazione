@@ -99,162 +99,180 @@
 	</head>
 	<jsp:include page="../fragments/nav.jsp" />
 <body>
-<button id="download" onclick="tableToExcel('v2','v2')">Export</button>
-	<table id="v2">
-		<tr>
-			<th>Risorsa</th>
-			<th>Attività</th>
-			<th>Progetto</th>
-			<th>Tariffa</th>
-			<th>Valuta</th>
-			<th>Consolidato 1</th>
-			<th>Prodotto 1</th>
-			<th>Consolidato 2</th>
-			<th>Prodotto 2</th>
-			<th>Consolidato 3</th>
-			<th>Prodotto 3</th>
-		</tr>
-
-		<c:forEach items="${list}" var="item">
-			<tr>
-			<td><a href="#" onclick="detail(${item.idRecord})"><c:out
-							value="${item.employeeDesc}" /></a></td>
-				<td><c:out value="${item.activityType}" /></td>
-				<td><c:out value="${item.projectDesc}" /></td>
-				<td><c:out value="${item.price}" /></td>
-				<td><c:out value="${item.currency}" /></td>
-				<td><c:out value="${item.cons0}" /></td>
-				<td><c:out value="${item.prod0}" /></td>
-				<td><c:out value="${item.cons1}" /></td>
-				<td><c:out value="${item.prod1}" /></td>
-				<td><c:out value="${item.cons2}" /></td>
-				<td><c:out value="${item.prod2}" /></td>
-			</tr>
-		</c:forEach>
-	</table>
 	
-	<form:form method="POST" class="form-horizontal" modelAttribute="v2Form" action="${pageContext.request.contextPath}/send/data">
-	    <form:hidden path="month"/>
-	    <form:hidden path="idRecord"/>
-	    <form:hidden path="idProject"/>
-		<form:hidden path="badgeNumber"/>
-		<form:hidden path="idProject"/>
-
-		<spring:bind path="employeeDesc">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Risorsa</label>
-				<div class="col-sm-10">
-					<form:input path="employeeDesc" type="text" class="form-control" placeholder="Risorsa" />
-					<form:errors path="employeeDesc" class="control-label" />
-				</div>
-			</div>
-		</spring:bind>
+	<div class="container">
+		<div class="btn-group">
 		
-		<div class="form-group">
-		Business Unit:<select id="bu">
-		<option value ="791">791</option>
-		<option value = "792">792</option>
-		</select>
+			<button id="download" class="btn btn-primary" onclick="tableToExcel('v2','v2')">Export</button>
+			<button type="submit" class="btn btn-primary">Aggiorna</button>
+			<button id="delete" type="submit" class="btn btn-primary">Elimina</button>
+			<button id="bottone" type="submit" class="btn btn-primary">Aggiungi</button>
+			
 		</div>
-		<spring:bind path="projectDesc">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Progetto</label>
-				<div class="col-sm-10">
-					<form:input path="projectDesc" type="text" class="form-control" placeholder="Progetto" />
-					<form:errors path="projectDesc" class="control-label" />
-				</div>
-			</div>
-		</spring:bind>
 
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Cliente</label>
-			<div class="col-sm-10">
-				<span id="customer"></span>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Attività</label>
-			<div class="col-sm-10">
-				<span id="activityType"></span>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label">Valuta</label>
-			<div class="col-sm-10">
-				<span id="currency"></span>
-			</div>
-		</div>
 	
-		<spring:bind path="price">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Tariffa</label>
-				<div class="col-sm-10">
-					<form:input path="price" type="text" class="form-control" placeholder="Tariffa" />
-					<form:errors path="price" class="control-label" />
+		<table id="v2" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Risorsa</th>
+					<th>Attività</th>
+					<th>Progetto</th>
+					<th>Tariffa</th>
+					<th>Valuta</th>
+					<th>Consolidato 1</th>
+					<th>Prodotto 1</th>
+					<th>Consolidato 2</th>
+					<th>Prodotto 2</th>
+					<th>Consolidato 3</th>
+					<th>Prodotto 3</th>
+				</tr>
+			</thead>
+			<tbody>	
+			<c:forEach items="${list}" var="item">
+				<tr>
+				<td><a href="#" onclick="detail(${item.idRecord})"><c:out
+								value="${item.employeeDesc}" /></a></td>
+					<td><c:out value="${item.activityType}" /></td>
+					<td><c:out value="${item.projectDesc}" /></td>
+					<td><c:out value="${item.price}" /></td>
+					<td><c:out value="${item.currency}" /></td>
+					<td><c:out value="${item.cons0}" /></td>
+					<td><c:out value="${item.prod0}" /></td>
+					<td><c:out value="${item.cons1}" /></td>
+					<td><c:out value="${item.prod1}" /></td>
+					<td><c:out value="${item.cons2}" /></td>
+					<td><c:out value="${item.prod2}" /></td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+		<form:form method="POST" class="form-horizontal" modelAttribute="v2Form" action="${pageContext.request.contextPath}/send/data">
+		    <form:hidden path="month"/>
+		    <form:hidden path="idRecord"/>
+		    <form:hidden path="idProject"/>
+			<form:hidden path="badgeNumber"/>
+			<form:hidden path="idProject"/>
+	
+			<spring:bind path="employeeDesc">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Risorsa</label>
+					<div class="col-sm-6">
+						<form:input path="employeeDesc" type="text" class="form-control" placeholder="Risorsa" />
+						<form:errors path="employeeDesc" class="control-label" />
+					</div>
+				</div>
+			</spring:bind>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">BU</label>
+				<div class="col-sm-6">
+					<select id="bu" class="form-control">
+						<option value ="791">791</option>
+						<option value = "792">792</option>
+					</select>
 				</div>
 			</div>
-		</spring:bind>
+			
+			<spring:bind path="projectDesc">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Progetto</label>
+					<div class="col-sm-6">
+						<form:input path="projectDesc" type="text" class="form-control" placeholder="Progetto" />
+						<form:errors path="projectDesc" class="control-label" />
+					</div>
+				</div>
+			</spring:bind>
+	
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Cliente</label>
+				<div class="col-sm-6">
+					<span id="customer"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Attività</label>
+				<div class="col-sm-6">
+					<span id="activityType"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Valuta</label>
+				<div class="col-sm-6">
+					<span id="currency"></span>
+				</div>
+			</div>
 		
-		<spring:bind path="cons0">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Consolidato 1</label>
-				<div class="col-sm-10">
-					<form:input path="cons0" type="text" class="form-control" placeholder="Consolidato 1" />
-					<form:errors path="cons0" class="control-label" />
+			<spring:bind path="price">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Tariffa</label>
+					<div class="col-sm-6">
+						<form:input path="price" type="text" class="form-control" placeholder="Tariffa" />
+						<form:errors path="price" class="control-label" />
+					</div>
 				</div>
-			</div>
-		</spring:bind>
-		<spring:bind path="prod0">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Prodotto 1</label>
-				<div class="col-sm-10">
-					<form:input path="prod0" type="text" class="form-control" placeholder="Prodotto 1" />
-					<form:errors path="prod0" class="control-label" />
+			</spring:bind>
+			
+			<spring:bind path="cons0">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Consolidato 1</label>
+					<div class="col-sm-6">
+						<form:input path="cons0" type="text" class="form-control" placeholder="Consolidato 1" />
+						<form:errors path="cons0" class="control-label" />
+					</div>
 				</div>
-			</div>
-		</spring:bind>
-
-		<spring:bind path="cons1">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Consolidato 2</label>
-				<div class="col-sm-10">
-					<form:input path="cons1" type="text" class="form-control" placeholder="Consolidato 2" />
-					<form:errors path="cons1" class="control-label" />
+			</spring:bind>
+			<spring:bind path="prod0">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Prodotto 1</label>
+					<div class="col-sm-6">
+						<form:input path="prod0" type="text" class="form-control" placeholder="Prodotto 1" />
+						<form:errors path="prod0" class="control-label" />
+					</div>
 				</div>
-			</div>
-		</spring:bind>
-		<spring:bind path="prod1">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Prodotto 2</label>
-				<div class="col-sm-10">
-					<form:input path="prod1" type="text" class="form-control" placeholder="Prodotto 2" />
-					<form:errors path="prod1" class="control-label" />
-				</div>
-			</div>
-		</spring:bind>
-
-		<spring:bind path="cons2">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Consolidato 3</label>
-				<div class="col-sm-10">
-					<form:input path="cons2" type="text" class="form-control" placeholder="Consolidato 3" />
-					<form:errors path="cons2" class="control-label" />
-				</div>
-			</div>
-		</spring:bind>
-		<spring:bind path="prod2">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Prodotto 3</label>
-				<div class="col-sm-10">
-					<form:input path="prod2" type="text" class="form-control" placeholder="Prodotto 3" />
-					<form:errors path="prod2" class="control-label" />
-				</div>
-			</div>
-		</spring:bind>
-
-       <input type="submit" value="Aggiorna V2" /><input type ="submit" id ="delete" value ="cancella record"/><input type="submit" id="bottone" value = "Inserisci record"/>
-	</form:form>
+			</spring:bind>
 	
+			<spring:bind path="cons1">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Consolidato 2</label>
+					<div class="col-sm-6">
+						<form:input path="cons1" type="text" class="form-control" placeholder="Consolidato 2" />
+						<form:errors path="cons1" class="control-label" />
+					</div>
+				</div>
+			</spring:bind>
+			<spring:bind path="prod1">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Prodotto 2</label>
+					<div class="col-sm-6">
+						<form:input path="prod1" type="text" class="form-control" placeholder="Prodotto 2" />
+						<form:errors path="prod1" class="control-label" />
+					</div>
+				</div>
+			</spring:bind>
+	
+			<spring:bind path="cons2">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Consolidato 3</label>
+					<div class="col-sm-6">
+						<form:input path="cons2" type="text" class="form-control" placeholder="Consolidato 3" />
+						<form:errors path="cons2" class="control-label" />
+					</div>
+				</div>
+			</spring:bind>
+			<spring:bind path="prod2">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Prodotto 3</label>
+					<div class="col-sm-6">
+						<form:input path="prod2" type="text" class="form-control" placeholder="Prodotto 3" />
+						<form:errors path="prod2" class="control-label" />
+					</div>
+				</div>
+			</spring:bind>
+	
+	       
+		</form:form>
+	
+	</div>	
 	<jsp:include page="../fragments/footer.jsp" />	
 </body>
 </html>
