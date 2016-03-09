@@ -1,6 +1,5 @@
 package it.soprasteria.pianificazione.v2.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -17,7 +16,7 @@ public class V2Service {
 	@Autowired
 	private DaoImpl dao;
 
-	public List<RecordV2Bean> getV2(String month, String user) throws SQLException {
+	public List<RecordV2Bean> getV2(String month, String user) {
 
 		List<RecordV2Bean> list = dao.getV2(month, user);
 
@@ -64,6 +63,8 @@ public class V2Service {
 		dao.delete(record);
 	}
 	
+	// TODO
+	// manca parametro in input per filtrare l'utente
 	public List<RecordV2Bean> trovaV2(){
 		List<RecordV2Bean> v2s = dao.findAllV2();
 		return v2s;

@@ -7,6 +7,16 @@ public class ProjectBean {
 	private String description;
 	private String type;
 	private String currency;
+	private int businessUnit;
+	
+	
+	public void setBusinessUnit(int businessUnit) {
+		this.businessUnit = businessUnit;
+	}
+
+	public int getBusinessUnit() {
+		return businessUnit;
+	}
 
 	public long getIdProject() {
 		return idProject;

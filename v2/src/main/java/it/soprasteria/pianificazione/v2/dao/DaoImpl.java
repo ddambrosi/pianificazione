@@ -38,8 +38,13 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 
 	@Override
-	public List<ProjectBean> getAllProject() {
-		List<ProjectBean> prog = getJdbcTemplate().query("SELECT * FROM progetti", new RowMapper<ProjectBean>() {
+	public List<ProjectBean> getAllProject(final int businessUnit) {
+		List<ProjectBean> prog = getJdbcTemplate().query("SELECT * FROM progetti WHERE business_unit = ?",new PreparedStatementSetter(){
+			@Override
+			public void setValues(PreparedStatement pstm) throws SQLException {
+                        pstm.setInt(1,businessUnit);				
+			}
+		}, new RowMapper<ProjectBean>() {
 			public ProjectBean mapRow(ResultSet rs, int rowNumb) throws SQLException {
 				ProjectBean proj = new ProjectBean();
 				proj.setIdProject(rs.getLong("id_progetto"));
@@ -47,6 +52,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 				proj.setCustomer(rs.getString("cliente"));
 				proj.setCurrency(rs.getString("valuta"));
 				proj.setType(rs.getString("attività"));
+				proj.setBusinessUnit(businessUnit);
 				LOG.debug(proj.getType());
 				return proj;
 			}
@@ -214,6 +220,9 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 				ps.setInt(i++, rec.getProd1());
 				ps.setInt(i++, rec.getCons2());
 				ps.setInt(i++, rec.getProd2());
+				
+				// TODO
+				// sistemare, cablato nome utente
 				ps.setString(i++, "Admin");
 				ps.setInt(i++, rec.getPrice());
 				return ps;
@@ -241,6 +250,10 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	public List<RecordV2Bean> findAllV2(){
 		List<RecordV2Bean> result = new ArrayList<RecordV2Bean>();
 		StringBuilder sb = new StringBuilder();
+		
+		// TODO
+		// recuperare l'elenco dei v2 in modo diverso
+
 		sb.append("SELECT *");
 		sb.append(" FROM u_progetti_risorse");
 		sb.append(" GROUP BY mese");

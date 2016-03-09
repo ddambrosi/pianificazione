@@ -47,7 +47,7 @@ public class SampleController {
 		binder.setValidator(formValidator);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Model model) {
 		
 		// TODO 
@@ -85,11 +85,11 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/autocomplete/progetto", method = RequestMethod.GET)
-	public @ResponseBody List<ProjectBean> autocompleta() {
+	public @ResponseBody List<ProjectBean> autocompleta(@RequestParam (name = "bu", required = false) int businessUnit) {
 		
 		// TODO
 		// inserire parametro per filtrare sul servizio
-		List<ProjectBean> result = projectService.findAll();
+		List<ProjectBean> result = projectService.findAll(businessUnit);
 		return result;
 	}
 
@@ -103,7 +103,7 @@ public class SampleController {
 
 	// era presente un errore nella firma del metodo
 	@RequestMapping(value = "/send/data", method = RequestMethod.POST)
-	public String modifyRecord(@ModelAttribute("v2Form") @Validated RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) throws SQLException {
+	public String modifyRecord(@ModelAttribute("v2Form") @Validated RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		
 		// il bean deve essere dichiarato @Validated
 		// non bisogna invocare il metodo di validazione sul form fa Spring in automatico
@@ -133,17 +133,14 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/send/insert", method = RequestMethod.POST)
-	public String insertRecord(@ModelAttribute("v2Form") RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) throws SQLException {
+	public String insertRecord(@ModelAttribute("v2Form") RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("SONO NELL'INSERT");
 
 		if (result.hasErrors()) {
 			LOG.debug("EERRRRROOOOOOOREEEEEEE " + result.getFieldError());
 			
 			// TODO
-			List<RecordV2Bean> list = new ArrayList<RecordV2Bean>();
-			list = service.getV2(record.getMonth(), "Admin");
-			
-			model.addAttribute("list", list);
+			// come per il metodo di modifica anche qui bisogna ricaricare la lista
 			
 			return "index";
 		} else {

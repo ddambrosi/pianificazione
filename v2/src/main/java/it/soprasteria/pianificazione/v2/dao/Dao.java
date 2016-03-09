@@ -9,7 +9,7 @@ import it.soprasteria.pianificazione.v2.bean.RecordV2Bean;
 public interface Dao {
 	public List<EmployeeBean> getAllEmployees();
 
-	public List<ProjectBean> getAllProject();
+	public List<ProjectBean> getAllProject(int businessUnit);
 
 	public List<RecordV2Bean> getV2(String month, String user);
 
