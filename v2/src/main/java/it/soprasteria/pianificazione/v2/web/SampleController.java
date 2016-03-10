@@ -26,6 +26,7 @@ import it.soprasteria.pianificazione.v2.bean.RecordV2Bean;
 import it.soprasteria.pianificazione.v2.service.EmployeeService;
 import it.soprasteria.pianificazione.v2.service.ProjectService;
 import it.soprasteria.pianificazione.v2.service.V2Service;
+import it.soprasteria.pianificazione.v2.util.SessionHelper;
 import it.soprasteria.pianificazione.v2.validator.FormValidator;
 
 @Controller
@@ -60,13 +61,13 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/edit/v2", method = RequestMethod.GET)
-	public ModelAndView method1(@RequestParam(required = false, name = "month") String month, @RequestParam(required = false, name = "userid") String userId) throws SQLException {
+	public ModelAndView method1(@RequestParam(required = false, name = "month") String month) throws SQLException {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
 		
 		List<RecordV2Bean> list = new ArrayList<RecordV2Bean>();
-		list = service.getV2(month, userId);
+		list = service.getV2(month, SessionHelper.getUser().getUsername());
 		
 		model.addObject("list", list);
 		model.addObject("v2Form", new RecordV2Bean());
@@ -109,11 +110,11 @@ public class SampleController {
 		// non bisogna invocare il metodo di validazione sul form fa Spring in automatico
 		
 		if (result.hasErrors()) {
-			LOG.debug("EERRRRROOOOOOOREEEEEEE");
+			LOG.warn("EERRRRROOOOOOOREEEEEEE");
 			
 			// ricarico la lista così nella jsp continuo a vedere la lista
 			List<RecordV2Bean> list = new ArrayList<RecordV2Bean>();
-			list = service.getV2(record.getMonth(), "Admin");
+			list = service.getV2(record.getMonth(), SessionHelper.getUser().getUsername());
 			
 			model.addAttribute("list", list);
 			
@@ -126,9 +127,8 @@ public class SampleController {
 			redirectAttributes.addFlashAttribute("msg", "Record aggiornato!");
 			
 			service.updateRecord(record);
-			// TODO
-			// sistemare, l'utente admin è cablato
-			return "redirect:/edit/v2?month=" + record.getMonth() + "&userid=Admin";
+
+			return "redirect:/edit/v2?month=" + record.getMonth();
 		}
 	}
 
@@ -146,9 +146,8 @@ public class SampleController {
 		} else {
 
 			service.insertRecord(record);
-			// TODO
-			// sistemare, l'utente admin è cablato
-			return "redirect:/edit/v2?month=" + record.getMonth() + "&userid=Admin";
+
+			return "redirect:/edit/v2?month=" + record.getMonth();
 		}
 	}
 
@@ -158,9 +157,7 @@ public class SampleController {
 
 		service.deleteRecord(record);
 		
-		// TODO
-		// sistemare, l'utente admin è cablato
-		return "redirect:/edit/v2?month=" + record.getMonth() + "&userid=Admin";
+		return "redirect:/edit/v2?month=" + record.getMonth();
 	}
 
 }

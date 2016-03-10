@@ -10,10 +10,12 @@
          http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 	<cache:annotation-driven />
 	<context:component-scan base-package="it.soprasteria.pianificazione.v2" />
+	
 	<bean id="V2Service" class="it.soprasteria.pianificazione.v2.service.V2Service" />
-	<bean id="Employee"
-		class="it.soprasteria.pianificazione.v2.service.EmployeeService" />
+	<bean id="Employee" class="it.soprasteria.pianificazione.v2.service.EmployeeService" />
 	<bean id="Project" class="it.soprasteria.pianificazione.v2.service.ProjectService" />
+	<bean id="User" class="it.soprasteria.pianificazione.v2.service.UserService" />
+	
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
 		<property name="cacheManager" ref="ehcache" />
 	</bean>
@@ -31,9 +33,9 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/pianificazione" />
+		<property name="url" value="jdbc:mysql://localhost:31006/pianificazione" />
 		<property name="username" value="root" />
-		<property name="password" value="mysql" />
+		<property name="password" value="" />
 	</bean>
 
 	<!-- JMX for ehcache -->

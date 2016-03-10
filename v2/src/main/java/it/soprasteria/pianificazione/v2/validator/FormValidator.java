@@ -19,11 +19,8 @@ public class FormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "badgeNumber", "NotEmpty.matricola");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idProject", "NotEmpty.idProgetto");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "customer", "cliente");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "activityType", "NotEmpty.attivita");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currency", "NotEmpty.valuta");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.tariffa");
-
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors,"currency","NotEmpty.valuta");
 	}
 
 }

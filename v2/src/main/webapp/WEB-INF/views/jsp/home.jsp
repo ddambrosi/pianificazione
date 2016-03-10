@@ -6,28 +6,19 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<!-- CSS file -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/EasyAutocomplete-1.3.3/easy-autocomplete.min.css">
-<script
-	src="${pageContext.request.contextPath}/webjars/jquery/1.11.1/jquery.js">
-</script>
-<script
-	src="${pageContext.request.contextPath}/resources/EasyAutocomplete-1.3.3/jquery.easy-autocomplete.js"></script>
-<script>
-
-
-</script>
-<title>Spring MVC</title>
+	<title>Spring MVC</title>
+	<jsp:include page="../fragments/head.jsp" />
 </head>
+<jsp:include page="../fragments/nav.jsp" />
 <body>
+
 	<table>
 	<tr>
 	 <th>Mese</th>
 	 </tr>
 	 <c:forEach items="${lista}" var = "item">
 	     <tr>
-			<td><a href="${pageContext.request.contextPath}/edit/v2?month=${item.month}&userid=Admin"><c:out value="${item.month}" /></a></td>
+			<td><a href="${pageContext.request.contextPath}/edit/v2?month=${item.month}"><c:out value="${item.month}" /></a></td>
 		</tr>
 	 </c:forEach>
 	</table>
