@@ -22,14 +22,20 @@
 		
 		$("#bottone").click(function(){
 			var path="${pageContext.request.contextPath}/send/insert";
-			console.log(path);
 			$("#v2Form").attr("action",path);
+			$("#v2Form").submit();
 		});
 		$("#delete").click(function(){
 			var path = "${pageContext.request.contextPath}/send/delete";
-			console.log(path);
 			$("#v2Form").attr("action",path);
+			$("#v2Form").submit();
 		});
+		$("#aggiorna").click(function(){
+			var path = "${pageContext.request.contextPath}/send/data";
+			$("#v2Form").attr("action",path);
+			$("#v2Form").submit();
+		});
+		
 		var options = {
 			url : function(phrase) {
 				return "${pageContext.request.contextPath}/autocomplete/risorse";
@@ -103,10 +109,10 @@
 	<div class="container">
 		<div class="btn-group">
 		
-			<button id="download" class="btn btn-primary" onclick="tableToExcel('v2','v2')">Export</button>
-			<button type="submit" class="btn btn-primary">Aggiorna</button>
-			<button id="delete" type="submit" class="btn btn-primary">Elimina</button>
-			<button id="bottone" type="submit" class="btn btn-primary">Aggiungi</button>
+			<button id="download" type="button" class="btn btn-primary" onclick="tableToExcel('v2','v2')">Export</button>
+			<button id="aggiorna" type="button" class="btn btn-primary">Aggiorna</button>
+			<button id="delete" type="button" class="btn btn-primary">Elimina</button>
+			<button id="bottone" type="button" class="btn btn-primary">Aggiungi</button>
 			
 		</div>
 
@@ -186,19 +192,19 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Cliente</label>
 				<div class="col-sm-6">
-					<span id="customer"></span>
+					<input id="customer" type="text" class="form-control" readonly> 
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Attività</label>
 				<div class="col-sm-6">
-					<span id="activityType"></span>
+					<input id="activityType" type="text" class="form-control" readonly> 
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Valuta</label>
 				<div class="col-sm-6">
-					<span id="currency"></span>
+					<input id="currency" type="text" class="form-control" readonly> 
 				</div>
 			</div>
 		

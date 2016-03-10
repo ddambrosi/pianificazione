@@ -18,7 +18,7 @@
 	 </tr>
 	 <c:forEach items="${lista}" var = "item">
 	     <tr>
-			<td><a href="${pageContext.request.contextPath}/edit/v2?month=${item.month}&userid=Admin"><c:out value="${item.month}" /></a></td>
+			<td><a href="${pageContext.request.contextPath}/edit/v2?month=${item.month}"><c:out value="${item.month}" /></a></td>
 		</tr>
 	 </c:forEach>
 	</table>
