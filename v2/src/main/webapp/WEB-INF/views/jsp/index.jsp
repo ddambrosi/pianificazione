@@ -12,6 +12,12 @@
 <script>
 	$(document).ready(function() {
 		
+		 $('#v2').DataTable({
+			"scrollY":        "200px",
+			"scrollCollapse": true,
+			"paging":         false}
+		);
+		 
 		function getUrlVars() {
 		    var vars = {};
 		    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {

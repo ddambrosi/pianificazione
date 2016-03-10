@@ -20,7 +20,6 @@ public class FormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "badgeNumber", "NotEmpty.matricola");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idProject", "NotEmpty.idProgetto");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.tariffa");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors,"currency","NotEmpty.valuta");
 	}
 
 }
