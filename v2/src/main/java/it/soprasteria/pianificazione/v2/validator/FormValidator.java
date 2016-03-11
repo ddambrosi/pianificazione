@@ -20,25 +20,23 @@ public class FormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "employeeDesc", "NotEmpty.risorsa");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "projectDesc", "NotEmpty.progetto");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.tariffa");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cons0", "NotEmpty.cons0");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cons1", "NotEmpty.cons1");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cons2", "NotEmpty.cons2");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "prod0", "NotEmpty.prod0");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "prod1", "NotEmpty.prod1");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "prod2", "NotEmpty.prod2");
 		
-		RecordV2Bean recordV2Bean = (RecordV2Bean)target;
-		
-		if(recordV2Bean.getCons0() != null){
-			if (recordV2Bean.getCons0() < 0) {
-				errors.rejectValue("cons0", "Zero.cons0");
-			}
+		if(((RecordV2Bean)target).getCons0() == 0){
+			errors.rejectValue("cons0", "Zero.cons0");
 		}
 		
-		if(recordV2Bean.getCons1() != null){
-			if (recordV2Bean.getCons1() < 0) {
-				errors.rejectValue("cons0", "Zero.cons0");
-			}
+		if(((RecordV2Bean)target).getCons1() == 0){
+			errors.rejectValue("cons1", "Zero.cons1");
 		}
 		
-		if(recordV2Bean.getCons2() != null){
-			if (recordV2Bean.getCons2() < 0) {
-				errors.rejectValue("cons0", "Zero.cons0");
-			}
+		if(((RecordV2Bean)target).getCons2() == 0){
+			errors.rejectValue("cons2", "Zero.cons2");
 		}
 	}
 }

@@ -86,7 +86,6 @@
 					$("#idProject").val(value[3]).trigger("change");
 					$("#month").val(value[4]).trigger("change");
 				},
-				
 				maxNumberOfElements : 10,
 				match : {
 					enabled : true
@@ -106,7 +105,6 @@
 					}
 					$('#employeeDesc').val(data.employeeDesc).change();
 					$('#projectDesc').val(data.projectDesc).change();
-					$('#bu').val($("#projetDesc").getSelectedItemData().businessUnit).change();
 				});
 	}
 </script>

@@ -38,7 +38,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 
 	@Override
-	public List<ProjectBean> getAllProject(final Integer businessUnit) {
+	public List<ProjectBean> getAllProject(final int businessUnit) {
 		List<ProjectBean> prog = getJdbcTemplate().query("SELECT * FROM progetti WHERE business_unit = ?",new PreparedStatementSetter(){
 			@Override
 			public void setValues(PreparedStatement pstm) throws SQLException {
@@ -81,7 +81,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 				RecordV2Bean v2b = new RecordV2Bean();
 				v2b.setMonth(month);
 				v2b.setIdRecord(rs.getLong("id_unione"));
-				v2b.setIdProject(rs.getLong("id_progetto"));
+				v2b.setIdProject(rs.getInt("id_progetto"));
 				v2b.setBadgeNumber(Integer.toString(rs.getInt("id_risorsa")));
 				v2b.setCons0(rs.getInt("consolidato_1"));
 				v2b.setProd0(rs.getInt("prodotto_1"));
@@ -118,7 +118,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 
 	@Override
-	public ProjectBean getProject(Long id) {
+	public ProjectBean getProject(long id) {
 		LOG.debug("IDENTIFICATIVO  :" + id);
 		List<ProjectBean> p1 = getJdbcTemplate().query("SELECT * FROM progetti WHERE  id_progetto = " + id, new RowMapper<ProjectBean>() {
 			@Override
@@ -140,7 +140,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 
 	@Override
-	public RecordV2Bean getRecord(final Long id) {
+	public RecordV2Bean getRecord(final long id) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT *");
 		sb.append(" FROM u_progetti_risorse");
@@ -162,7 +162,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 				rv.setProd1(rs.getInt("prodotto_2"));
 				rv.setCons2(rs.getInt("consolidato_3"));
 				rv.setProd2(rs.getInt("prodotto_3"));
-				rv.setIdProject(rs.getLong("id_progetto"));
+				rv.setIdProject(rs.getInt("id_progetto"));
 				rv.setBadgeNumber(Integer.toString(rs.getInt("id_risorsa")));
 				LOG.debug("*******TARIFFAAAAAAAAAAAAAAAA *****************" + rs.getInt("tariffa"));
 				rv.setPrice(rs.getInt("tariffa"));
@@ -186,13 +186,13 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
 				int i = 1;
 				PreparedStatement ps = conn.prepareStatement(sb.toString());
-				ps.setLong(i++, rec.getIdProject() == null ? 0 : rec.getIdProject());
-				ps.setInt(i++, rec.getCons0() == null ? 0 : rec.getCons0());
-				ps.setInt(i++, rec.getProd0() == null ? 0 : rec.getProd0());
-				ps.setInt(i++, rec.getCons1() == null ? 0 : rec.getCons1());
-				ps.setInt(i++, rec.getProd1() == null ? 0 : rec.getProd1());
-				ps.setInt(i++, rec.getCons2() == null ? 0 : rec.getCons2());
-				ps.setInt(i++, rec.getProd2() == null ? 0 : rec.getProd2());
+				ps.setLong(i++, rec.getIdProject());
+				ps.setInt(i++, rec.getCons0());
+				ps.setInt(i++, rec.getProd0());
+				ps.setInt(i++, rec.getCons1());
+				ps.setInt(i++, rec.getProd1());
+				ps.setInt(i++, rec.getCons2());
+				ps.setInt(i++, rec.getProd2());
 				ps.setInt(i++, rec.getPrice());
 				ps.setLong(i++, rec.getIdRecord());
 				LOG.debug(rec.getIdRecord());
@@ -212,14 +212,14 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 				int i = 1;
 				PreparedStatement ps = conn.prepareStatement(sb.toString());
 				ps.setString(i++, rec.getMonth());
-				ps.setLong(i++, rec.getIdProject() == null ? 0 : rec.getIdProject());
+				ps.setLong(i++, rec.getIdProject());
 				ps.setInt(i++, Integer.parseInt(rec.getBadgeNumber()));
-				ps.setInt(i++, rec.getCons0() == null ? 0 : rec.getCons0());
-				ps.setInt(i++, rec.getProd0() == null ? 0 : rec.getProd0());
-				ps.setInt(i++, rec.getCons1() == null ? 0 : rec.getCons1());
-				ps.setInt(i++, rec.getProd1() == null ? 0 : rec.getProd1());
-				ps.setInt(i++, rec.getCons2() == null ? 0 : rec.getCons2());
-				ps.setInt(i++, rec.getProd2() == null ? 0 : rec.getProd2());
+				ps.setInt(i++, rec.getCons0());
+				ps.setInt(i++, rec.getProd0());
+				ps.setInt(i++, rec.getCons1());
+				ps.setInt(i++, rec.getProd1());
+				ps.setInt(i++, rec.getCons2());
+				ps.setInt(i++, rec.getProd2());
 				
 				// TODO
 				// sistemare, cablato nome utente
@@ -231,7 +231,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 
 	@Override
-	public void delete(final Long id) {
+	public void delete(final long id) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM u_progetti_risorse");
 		sb.append(" WHERE id_unione = ?");
