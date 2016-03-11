@@ -133,7 +133,7 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/send/insert", method = RequestMethod.POST)
-	public String insertRecord(@ModelAttribute("v2Form") RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+	public String insertRecord(@ModelAttribute("v2Form") @Validated RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("SONO NELL'INSERT");
 
 		if (result.hasErrors()) {
@@ -154,8 +154,8 @@ public class SampleController {
 	@RequestMapping(value = "/send/delete", method = RequestMethod.POST)
 	public String deleteRecord(@ModelAttribute("v2Form") RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("SONO NEL DELETE");
-
-		service.deleteRecord(record);
+       long id = record.getIdRecord();
+	   service.deleteRecord(id);
 		
 		return "redirect:/edit/v2?month=" + record.getMonth();
 	}

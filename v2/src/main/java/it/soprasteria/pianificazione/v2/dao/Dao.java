@@ -23,7 +23,7 @@ public interface Dao {
 
 	public void insert(RecordV2Bean rec);
 
-	public void delete(RecordV2Bean rec);
+	public void delete(long id);
 
 	public List<RecordV2Bean> findAllV2();
 

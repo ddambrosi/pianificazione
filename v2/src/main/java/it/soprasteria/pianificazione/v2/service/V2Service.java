@@ -59,8 +59,8 @@ public class V2Service {
 		dao.insert(record);
 	}
 
-	public void deleteRecord(RecordV2Bean record) {
-		dao.delete(record);
+	public void deleteRecord(Long id) {
+		dao.delete(id);
 	}
 	
 	// TODO

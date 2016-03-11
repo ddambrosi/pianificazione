@@ -231,7 +231,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 
 	@Override
-	public void delete(final RecordV2Bean rec) {
+	public void delete(final long id) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM u_progetti_risorse");
 		sb.append(" WHERE id_unione = ?");
@@ -239,7 +239,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(sb.toString());
-				ps.setLong(1, rec.getIdRecord());
+				ps.setLong(1, id);
 				return ps;
 			}
 		});
