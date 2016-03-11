@@ -26,7 +26,7 @@ public class V2Service {
 		return list;
 	}
 
-	public RecordV2Bean getRecord(long id) {
+	public RecordV2Bean getRecord(Long id) {
 
 		RecordV2Bean record = dao.getRecord(id);
 		completeRecord(record);
@@ -40,7 +40,7 @@ public class V2Service {
 
 		item.setEmployeeDesc(eb.getName() + " " + eb.getSurname());
 
-		long id = item.getIdProject();
+		Long id = item.getIdProject();
 		LOG.debug("IDENTIFICATIVO " + id);
 		ProjectBean prb = dao.getProject(id);
 

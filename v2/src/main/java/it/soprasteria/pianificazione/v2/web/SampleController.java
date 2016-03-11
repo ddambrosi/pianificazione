@@ -86,16 +86,16 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/autocomplete/progetto", method = RequestMethod.GET)
-	public @ResponseBody List<ProjectBean> autocompleta(@RequestParam (name = "bu", required = false) int businessUnit) {
+	public @ResponseBody List<ProjectBean> autocompleta(@RequestParam (name = "bu", required = false) Integer businessUnit) {
 		
-		// TODO
+		//TODO
 		// inserire parametro per filtrare sul servizio
 		List<ProjectBean> result = projectService.findAll(businessUnit);
 		return result;
 	}
 
 	@RequestMapping(value = "/table/edit", method = RequestMethod.GET)
-	public @ResponseBody RecordV2Bean detail(int id) throws SQLException {
+	public @ResponseBody RecordV2Bean detail(Long id) throws SQLException {
 		
 		LOG.debug("*********************************************************************************SONO QUI");
 		
@@ -111,6 +111,7 @@ public class SampleController {
 		
 		if (result.hasErrors()) {
 			LOG.warn("EERRRRROOOOOOOREEEEEEE");
+			
 			
 			// ricarico la lista così nella jsp continuo a vedere la lista
 			List<RecordV2Bean> list = new ArrayList<RecordV2Bean>();
@@ -138,9 +139,12 @@ public class SampleController {
 
 		if (result.hasErrors()) {
 			LOG.debug("EERRRRROOOOOOOREEEEEEE " + result.getFieldError());
-			
 			// TODO
 			// come per il metodo di modifica anche qui bisogna ricaricare la lista
+			List<RecordV2Bean> list = new ArrayList<RecordV2Bean>();
+			list = service.getV2(record.getMonth(), SessionHelper.getUser().getUsername());
+			
+			model.addAttribute("list", list);
 			
 			return "index";
 		} else {
@@ -154,7 +158,7 @@ public class SampleController {
 	@RequestMapping(value = "/send/delete", method = RequestMethod.POST)
 	public String deleteRecord(@ModelAttribute("v2Form") RecordV2Bean record, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("SONO NEL DELETE");
-       long id = record.getIdRecord();
+       Long id = record.getIdRecord();
 	   service.deleteRecord(id);
 		
 		return "redirect:/edit/v2?month=" + record.getMonth();
