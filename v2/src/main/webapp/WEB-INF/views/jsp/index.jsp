@@ -12,6 +12,12 @@
 <script>
 	$(document).ready(function() {
 		
+		 $('#v2').DataTable({
+			"scrollY":        "200px",
+			"scrollCollapse": true,
+			"paging":         false}
+		);
+		 
 		function getUrlVars() {
 		    var vars = {};
 		    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -135,9 +141,8 @@
 			</thead>
 			<tbody>	
 			<c:forEach items="${list}" var="item">
-				<tr>
-				<td><a href="#" onclick="detail(${item.idRecord})"><c:out
-								value="${item.employeeDesc}" /></a></td>
+				<tr onclick="detail(${item.idRecord})">
+				<td><c:out value="${item.employeeDesc}" /></td>
 					<td><c:out value="${item.activityType}" /></td>
 					<td><c:out value="${item.projectDesc}" /></td>
 					<td><c:out value="${item.price}" /></td>
