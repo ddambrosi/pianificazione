@@ -2,7 +2,7 @@ package it.soprasteria.pianificazione.v2.bean;
 
 public class RecordV2Bean {
 
-	private String month;
+	private int month;
 	private long idRecord;
 	private String badgeNumber;
 	private String employeeDesc;
@@ -28,11 +28,11 @@ public class RecordV2Bean {
 		this.customer = customer;
 	}
 
-	public String getMonth() {
+	public int getMonth() {
 		return month;
 	}
 
-	public void setMonth(String month) {
+	public void setMonth(int month) {
 		this.month = month;
 	}
 

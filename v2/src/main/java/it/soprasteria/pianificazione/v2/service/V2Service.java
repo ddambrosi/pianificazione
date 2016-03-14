@@ -16,7 +16,7 @@ public class V2Service {
 	@Autowired
 	private DaoImpl dao;
 
-	public List<RecordV2Bean> getV2(String month, String user) {
+	public List<RecordV2Bean> getV2(int month, String user) {
 
 		List<RecordV2Bean> list = dao.getV2(month, user);
 
@@ -68,6 +68,22 @@ public class V2Service {
 	public List<RecordV2Bean> trovaV2(){
 		List<RecordV2Bean> v2s = dao.findAllV2();
 		return v2s;
+	}
+	
+	public List<Integer> getMonths() {
+		List<Integer> monthsList = dao.getMonths();
+		
+		return monthsList;
+	}
+	
+	public boolean addNextMonth() {
+		
+		if(dao.checkMonth(dao.getLastMonth(dao.getMonths()))) {
+			dao.addNextMonth();
+			return false;
+		}
+		
+		return true;
 	}
 
 }

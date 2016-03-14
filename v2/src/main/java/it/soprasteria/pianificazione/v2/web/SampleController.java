@@ -54,14 +54,32 @@ public class SampleController {
 		// TODO 
 		// manca parametro in input riguardo l'utente
 		
-        List<RecordV2Bean> rv2b = new ArrayList<RecordV2Bean>();
-        rv2b = service.trovaV2();
-        model.addAttribute("lista",rv2b);
+		 //    List<RecordV2Bean> rv2b = new ArrayList<RecordV2Bean>();
+        List<Integer> monthsList = new ArrayList<Integer>();
+ //       rv2b = service.trovaV2();
+        monthsList = service.getMonths();
+        
+        LOG.info("monthsList" + monthsList);
+//        model.addAttribute("lista",rv2b);
+        model.addAttribute("lista",monthsList);
 		return "home";
 	}
 
+	@RequestMapping(value = "/addMonth", method = RequestMethod.POST)
+	public String addMonth(Model model, RedirectAttributes redirectAttributes) {
+		
+		boolean addMonthRejected = false;
+		
+			SessionHelper.getUser().getUsername();
+			addMonthRejected = service.addNextMonth();
+			
+			redirectAttributes.addFlashAttribute("rejected", addMonthRejected);
+			return "redirect:/home";
+		
+	}
+	
 	@RequestMapping(value = "/edit/v2", method = RequestMethod.GET)
-	public ModelAndView method1(@RequestParam(required = false, name = "month") String month) throws SQLException {
+	public ModelAndView method1(@RequestParam(required = false, name = "month") int month) throws SQLException {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
@@ -159,5 +177,5 @@ public class SampleController {
 		
 		return "redirect:/edit/v2?month=" + record.getMonth();
 	}
-
+	
 }

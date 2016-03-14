@@ -11,7 +11,7 @@ public interface Dao {
 
 	public List<ProjectBean> getAllProject(int businessUnit);
 
-	public List<RecordV2Bean> getV2(String month, String user);
+	public List<RecordV2Bean> getV2(int month, String user);
 
 	public EmployeeBean getEmployee(String id);
 
@@ -26,5 +26,9 @@ public interface Dao {
 	public void delete(long id);
 
 	public List<RecordV2Bean> findAllV2();
+	
+	public List<Integer> getMonths();
+	
+	public void addNextMonth();
 
 }

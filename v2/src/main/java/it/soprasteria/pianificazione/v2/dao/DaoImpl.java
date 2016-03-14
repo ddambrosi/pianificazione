@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -61,7 +64,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 
 	@Override
-	public List<RecordV2Bean> getV2(final String month, final String user) {
+	public List<RecordV2Bean> getV2(final int month, final String user) {
 		List<RecordV2Bean> result = new ArrayList<RecordV2Bean>();
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT *");
@@ -72,7 +75,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 		result = getJdbcTemplate().query(sb.toString(), new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement pstm) throws SQLException {
-				pstm.setString(1, month);
+				pstm.setInt(1, month);
 				pstm.setString(2, user);
 			}
 		}, new RowMapper<RecordV2Bean>() {
@@ -155,7 +158,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 			public RecordV2Bean mapRow(ResultSet rs, int rowNumb) throws SQLException {
 				RecordV2Bean rv = new RecordV2Bean();
 				rv.setIdRecord(rs.getLong("id_unione"));
-				rv.setMonth(rs.getString("mese"));
+				rv.setMonth(rs.getInt("mese"));
 				rv.setCons0(rs.getInt("consolidato_1"));
 				rv.setProd0(rs.getInt("prodotto_1"));
 				rv.setCons1(rs.getInt("consolidato_2"));
@@ -211,7 +214,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
 				int i = 1;
 				PreparedStatement ps = conn.prepareStatement(sb.toString());
-				ps.setString(i++, rec.getMonth());
+				ps.setInt(i++, rec.getMonth());
 				ps.setLong(i++, rec.getIdProject());
 				ps.setInt(i++, Integer.parseInt(rec.getBadgeNumber()));
 				ps.setInt(i++, rec.getCons0());
@@ -261,7 +264,7 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
     	 @Override
     	public RecordV2Bean mapRow(ResultSet rs, int rowNumb) throws SQLException {
     		 RecordV2Bean rv = new RecordV2Bean();
-    		 rv.setMonth(rs.getString("mese"));
+    		 rv.setMonth(rs.getInt("mese"));
     		 LOG.debug(rv.getMonth());
     		return rv;
     	}
@@ -269,4 +272,130 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 		return result;
 	}
 
+
+	@Override
+	public List<Integer> getMonths(){
+		List<Integer> result = new ArrayList<Integer>();
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("SELECT DISTINCT mese");
+		sb.append(" FROM u_progetti_risorse");
+		sb.append(" ORDER BY mese");
+		
+       result = getJdbcTemplate().query(sb.toString(), new RowMapper<Integer>(){
+    	 @Override
+    	public Integer mapRow(ResultSet rs, int rowNumb) throws SQLException {
+    		 Integer mese = rs.getInt("mese");
+    		return mese;
+    	}
+       });
+		return result;
+	}
+
+	public Integer getLastMonth(List<Integer> mesi) {
+		return mesi.get(mesi.size() -1);
+	}
+	
+	public boolean checkMonth(int mese) {
+		
+		//recupero il mese 
+		Date date= new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		
+		int currentMonth = cal.get(Calendar.MONTH);
+		int currentYear = cal.get(Calendar.YEAR);
+		
+		String meseString = "" + mese;
+		int lastYear= Integer.parseInt(meseString.substring(0, 4));
+		int lastMonth = Integer.parseInt(meseString.substring(4, 6));
+		currentMonth++;
+		
+		System.out.println("current mese: " + currentMonth);
+		System.out.println("current anno: " + currentYear);
+		
+		System.out.println("last mese: " + lastMonth);
+		System.out.println("last anno: " + lastYear);
+		
+		if(currentMonth == lastMonth && currentYear == lastYear) {			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void addNextMonth() {
+		
+		List<RecordV2Bean> result = new ArrayList<RecordV2Bean>();
+		StringBuilder sb = new StringBuilder();
+	//	if(checkMonth(getLastMonth(getMonths()))) {
+			sb.append("SELECT * FROM u_progetti_risorse WHERE mese = '"+ getLastMonth(getMonths()) +"' AND user_id = 'Admin' ORDER BY mese desc");
+			
+			result = getJdbcTemplate().query(sb.toString(), new RowMapper<RecordV2Bean>(){
+				 @Override
+			    	public RecordV2Bean mapRow(ResultSet rs, int rowNumb) throws SQLException {
+			    		 RecordV2Bean rv = new RecordV2Bean();
+			    		 rv.setMonth(rs.getInt("mese"));
+			    		 rv.setIdProject(rs.getLong("id_progetto"));
+			    		 rv.setBadgeNumber(rs.getString("id_risorsa"));
+			    		 rv.setCons0(rs.getInt("consolidato_1"));
+			    		 rv.setCons1(rs.getInt("consolidato_2"));
+			    		 rv.setCons2(rs.getInt("consolidato_3"));
+			    		 rv.setProd0(rs.getInt("prodotto_1"));
+			    		 rv.setProd1(rs.getInt("prodotto_2"));
+			    		 rv.setProd2(rs.getInt("prodotto_3"));
+			    		 rv.setPrice(rs.getInt("tariffa"));
+			    		return rv;
+			    	}
+			       });
+			
+			String insertSql =
+					  "INSERT INTO u_progetti_risorse (" +
+					  " mese, " +
+					  " id_progetto, " +
+					  " id_risorsa, " +
+					  " consolidato_1, " +
+					  " consolidato_2," + 
+					  " consolidato_3, " +
+					  " prodotto_1," + 
+					  " prodotto_2, " +
+					  " prodotto_3," + 	
+					  " user_id, " +
+					  " tariffa)" +
+					  "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	
+			for (RecordV2Bean v2 : result) {
+				
+			Object[] params = new Object[] { getNextMonth(v2.getMonth()), v2.getIdProject(), v2.getBadgeNumber(), v2.getCons1(), v2.getCons2(), 0, v2.getProd1(), v2.getProd2(), 0, "Admin", v2.getPrice() };
+			int[] types = new int[] { Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.INTEGER };
+			int row = getJdbcTemplate().update(insertSql, params, types);
+			System.out.println(row + " row inserted.");
+			}
+//		}
+	}
+	
+	private int getNextMonth(int month) {
+		
+		String meseString = "" + month;
+		String stringMese = "";
+		int anno = Integer.parseInt(meseString.substring(0, 4));
+		int mese = Integer.parseInt(meseString.substring(4, 6));
+		if(mese < 12) {
+			mese++;
+		}
+		else if(mese == 12){
+			mese = 1;
+			anno++;
+		}
+		if(mese < 10) {
+			stringMese = stringMese + 0;
+		}
+		
+		stringMese = stringMese + mese;
+		
+		
+		return Integer.parseInt(anno + stringMese);
+	}
+		
 }

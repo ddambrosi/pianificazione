@@ -33,9 +33,9 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/pianificazione" />
+		<property name="url" value="jdbc:mysql://localhost:3306/pianificazione_v2" />
 		<property name="username" value="root" />
-		<property name="password" value="mysql" />
+		<property name="password" value="" />
 	</bean>
 
 	<!-- JMX for ehcache -->
