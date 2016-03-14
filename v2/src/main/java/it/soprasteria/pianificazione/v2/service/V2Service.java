@@ -70,16 +70,16 @@ public class V2Service {
 		return v2s;
 	}
 	
-	public List<Integer> getMonths() {
-		List<Integer> monthsList = dao.getMonths();
+	public List<Integer> getMonths(String user) {
+		List<Integer> monthsList = dao.getMonths(user);
 		
 		return monthsList;
 	}
 	
-	public boolean addNextMonth() {
+	public boolean addNextMonth(String user) {
 		
-		if(dao.checkMonth(dao.getLastMonth(dao.getMonths()))) {
-			dao.addNextMonth();
+		if(dao.checkMonth(dao.getLastMonth(dao.getMonths(user)))) {
+			dao.addNextMonth(user);
 			return false;
 		}
 		

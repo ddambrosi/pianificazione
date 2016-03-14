@@ -274,12 +274,13 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 
 
 	@Override
-	public List<Integer> getMonths(){
+	public List<Integer> getMonths(String user){
 		List<Integer> result = new ArrayList<Integer>();
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("SELECT DISTINCT mese");
 		sb.append(" FROM u_progetti_risorse");
+		sb.append(" WHERE user_id = '" + user + "'");
 		sb.append(" ORDER BY mese");
 		
        result = getJdbcTemplate().query(sb.toString(), new RowMapper<Integer>(){
@@ -325,12 +326,11 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 	}
 	
 	@Override
-	public void addNextMonth() {
+	public void addNextMonth(String user) {
 		
 		List<RecordV2Bean> result = new ArrayList<RecordV2Bean>();
 		StringBuilder sb = new StringBuilder();
-	//	if(checkMonth(getLastMonth(getMonths()))) {
-			sb.append("SELECT * FROM u_progetti_risorse WHERE mese = '"+ getLastMonth(getMonths()) +"' AND user_id = 'Admin' ORDER BY mese desc");
+			sb.append("SELECT * FROM u_progetti_risorse WHERE mese = '"+ getLastMonth(getMonths(user)) +"' AND user_id = '" + user + "' ORDER BY mese desc");
 			
 			result = getJdbcTemplate().query(sb.toString(), new RowMapper<RecordV2Bean>(){
 				 @Override
@@ -372,7 +372,6 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
 			int row = getJdbcTemplate().update(insertSql, params, types);
 			System.out.println(row + " row inserted.");
 			}
-//		}
 	}
 	
 	private int getNextMonth(int month) {

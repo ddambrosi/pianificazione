@@ -54,13 +54,10 @@ public class SampleController {
 		// TODO 
 		// manca parametro in input riguardo l'utente
 		
-		 //    List<RecordV2Bean> rv2b = new ArrayList<RecordV2Bean>();
         List<Integer> monthsList = new ArrayList<Integer>();
- //       rv2b = service.trovaV2();
-        monthsList = service.getMonths();
+        String user = SessionHelper.getUser().getUsername();
+        monthsList = service.getMonths(user);
         
-        LOG.info("monthsList" + monthsList);
-//        model.addAttribute("lista",rv2b);
         model.addAttribute("lista",monthsList);
 		return "home";
 	}
@@ -70,8 +67,10 @@ public class SampleController {
 		
 		boolean addMonthRejected = false;
 		
-			SessionHelper.getUser().getUsername();
-			addMonthRejected = service.addNextMonth();
+			String user = SessionHelper.getUser().getUsername();
+			LOG.info("user: " + user);
+			
+			addMonthRejected = service.addNextMonth(user);
 			
 			redirectAttributes.addFlashAttribute("rejected", addMonthRejected);
 			return "redirect:/home";

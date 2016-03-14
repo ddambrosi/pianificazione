@@ -27,8 +27,8 @@ public interface Dao {
 
 	public List<RecordV2Bean> findAllV2();
 	
-	public List<Integer> getMonths();
+	public List<Integer> getMonths(String user);
 	
-	public void addNextMonth();
+	public void addNextMonth(String user);
 
 }
